@@ -1,0 +1,23 @@
+{
+  "name": "shopit",
+  "version": "1.0.0",
+  "description": "online shops",
+  "main": "app.ts",
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app.ts",
+    "build": "tsc"
+  },
+  "author": "Techie",
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.17.17",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
