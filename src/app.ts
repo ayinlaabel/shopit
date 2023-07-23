@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 
 const express = require('express');
+const { db } = require('./database/mongoose');
+
 require('dotenv').config();
 
 const app = express();
