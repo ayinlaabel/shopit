@@ -1,3 +1,3 @@
 import { category } from './category.interface';
-
-export { category };
+import { customer } from './customer.interface';
+export { category, customer };

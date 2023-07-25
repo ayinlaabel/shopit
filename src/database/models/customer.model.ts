@@ -1,4 +1,8 @@
-const customerSchema = mongoose.Schema({
+// Import mongoose and its types
+import mongoose, { Schema, Document } from 'mongoose';
+import { customer } from '../../interface';
+
+const customerSchema: Schema<customer> = new Schema<customer>({
   firstname: {
     type: String,
     required: [true, 'First Name is required.'],
@@ -17,6 +21,6 @@ const customerSchema = mongoose.Schema({
   },
 });
 
-const Customer = mongoose.model('Customer', customerSchema);
+const Customers = mongoose.model('Customers', customerSchema);
 
-module.exports = { Customer };
+export default Customers;
