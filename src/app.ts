@@ -9,7 +9,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 //import routes
-const category = require('./routers/product/category.route');
+const categoryRoutes = require('./routers/product/category.route');
+const customerRoutes = require('./routers/customer/customer.route');
 
 // Middleware to parse JSON and URL-encoded bodies
 app.use(express.json());
@@ -17,7 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Define a route
 // app.use('/', indexRoute)
-app.use('/api/v1/products/category', category);
+app.use('/api/v1/products/category', categoryRoutes);
+app.use('/api/v1/customers', customerRoutes);
 
 // Re-Routing to it route component
 
