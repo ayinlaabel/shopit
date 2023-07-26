@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 
 import { Customers } from '../../database/models';
 import { CustomerValidator } from '../../validator';
+import { customer } from '../../interface';
 
 exports.createCustomerAccounnt = async (
   req: Request,
@@ -46,6 +47,48 @@ exports.createCustomerAccounnt = async (
           data: err,
         })
       );
+  } else {
+    res.status(400).jsonp({
+      status: 'FAILED',
+      message: `User with ${email} already exiting`,
+      data: '',
+    });
   }
 };
 
+exports.customerLogin = async (req: Request, res: Response, next: any) => {
+  let { email, password } = req.body;
+
+  Customers.findOne({ email }).then(async (customer: any) => {
+    if (!customer)
+      res
+        .status(400)
+        .jsonp({ status: 'FAILED', message: 'No Customer Found.' });
+
+    let hash = await bcrypt.compare(password, customer.password);
+    if (!hash)
+      res
+        .status(400)
+        .jsonp({ status: 'FAILED', message: 'Incorrect password, try again.' });
+    else
+      customer.createSession().then((refreshToken: any) => {
+        //Session created successfully - refreshToken returned.
+        //now we generate an access auth token for the user.
+        return customer
+          .generateAccessAuthToken()
+          .then((accessToken: any) => {
+            //access auth token generated successfully, now we return an object containing  the auth token
+            return { accessToken, refreshToken };
+          })
+          .then((authToken: any) => {
+            //Now we construct and send  the response to the user with their auth tokens in the header and the user object in the body
+            res.status(200).jsonp({
+              status: 'SUCCESS',
+              message: 'Login successfull',
+              data: customer,
+              token: authToken.accessToken,
+            });
+          });
+      });
+  });
+};

@@ -3,4 +3,5 @@ export interface customer {
   lastname: string;
   email: string;
   password: string;
+  sessions?: any;
 }
